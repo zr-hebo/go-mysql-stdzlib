@@ -11,7 +11,7 @@
 //  import "database/sql"
 //  import _ "github.com/go-sql-driver/mysql"
 //
-//  db, err := sql.Open("mysql", "user:password@/dbname")
+//  db, err := sql.Open("mysql_compress", "user:password@/dbname")
 //
 // See https://github.com/go-sql-driver/mysql#usage for details
 package mysql
@@ -81,7 +81,7 @@ func (d MySQLDriver) Open(dsn string) (driver.Conn, error) {
 }
 
 func init() {
-	sql.Register("mysql", &MySQLDriver{})
+	sql.Register("mysql_compress", &MySQLDriver{})
 }
 
 // NewConnector returns new driver.Connector.

@@ -111,7 +111,7 @@ func runTestsWithMultiStatement(t *testing.T, dsn string, tests ...func(dbt *DBT
 	dsn += "&multiStatements=true"
 	var db *sql.DB
 	if _, err := ParseDSN(dsn); err != errInvalidDSNUnsafeCollation {
-		db, err = sql.Open("mysql", dsn)
+		db, err = sql.Open("mysql_compress", dsn)
 		if err != nil {
 			t.Fatalf("error connecting: %s", err.Error())
 		}
@@ -130,7 +130,7 @@ func runTests(t *testing.T, dsn string, tests ...func(dbt *DBTest)) {
 		t.Skipf("MySQL server not running on %s", netAddr)
 	}
 
-	db, err := sql.Open("mysql", dsn)
+	db, err := sql.Open("mysql_compress", dsn)
 	if err != nil {
 		t.Fatalf("error connecting: %s", err.Error())
 	}
@@ -141,7 +141,7 @@ func runTests(t *testing.T, dsn string, tests ...func(dbt *DBTest)) {
 	dsn2 := dsn + "&interpolateParams=true"
 	var db2 *sql.DB
 	if _, err := ParseDSN(dsn2); err != errInvalidDSNUnsafeCollation {
-		db2, err = sql.Open("mysql", dsn2)
+		db2, err = sql.Open("mysql_compress", dsn2)
 		if err != nil {
 			t.Fatalf("error connecting: %s", err.Error())
 		}
@@ -151,7 +151,7 @@ func runTests(t *testing.T, dsn string, tests ...func(dbt *DBTest)) {
 	dsn3 := dsn + "&multiStatements=true"
 	var db3 *sql.DB
 	if _, err := ParseDSN(dsn3); err != errInvalidDSNUnsafeCollation {
-		db3, err = sql.Open("mysql", dsn3)
+		db3, err = sql.Open("mysql_compress", dsn3)
 		if err != nil {
 			t.Fatalf("error connecting: %s", err.Error())
 		}
@@ -1874,7 +1874,7 @@ func testDialError(t *testing.T, dialErr error, expectErr error) {
 		return nil, dialErr
 	})
 
-	db, err := sql.Open("mysql", fmt.Sprintf("%s:%s@mydial(%s)/%s?timeout=30s", user, pass, addr, dbname))
+	db, err := sql.Open("mysql_compress", fmt.Sprintf("%s:%s@mydial(%s)/%s?timeout=30s", user, pass, addr, dbname))
 	if err != nil {
 		t.Fatalf("error connecting: %s", err.Error())
 	}
@@ -1913,7 +1913,7 @@ func TestCustomDial(t *testing.T) {
 		return d.DialContext(ctx, prot, addr)
 	})
 
-	db, err := sql.Open("mysql", fmt.Sprintf("%s:%s@mydial(%s)/%s?timeout=30s", user, pass, addr, dbname))
+	db, err := sql.Open("mysql_compress", fmt.Sprintf("%s:%s@mydial(%s)/%s?timeout=30s", user, pass, addr, dbname))
 	if err != nil {
 		t.Fatalf("error connecting: %s", err.Error())
 	}
@@ -2011,7 +2011,7 @@ func TestUnixSocketAuthFail(t *testing.T) {
 		}
 		t.Logf("socket: %s", socket)
 		badDSN := fmt.Sprintf("%s:%s@unix(%s)/%s?timeout=30s", user, badPass, socket, dbname)
-		db, err := sql.Open("mysql", badDSN)
+		db, err := sql.Open("mysql_compress", badDSN)
 		if err != nil {
 			t.Fatalf("error connecting: %s", err.Error())
 		}
@@ -2160,7 +2160,7 @@ func TestEmptyPassword(t *testing.T) {
 	}
 
 	dsn := fmt.Sprintf("%s:%s@%s/%s?timeout=30s", user, "", netAddr, dbname)
-	db, err := sql.Open("mysql", dsn)
+	db, err := sql.Open("mysql_compress", dsn)
 	if err == nil {
 		defer db.Close()
 		err = db.Ping()
@@ -3036,7 +3036,7 @@ func TestConnectorObeysDialTimeouts(t *testing.T) {
 		return d.DialContext(ctx, prot, addr)
 	})
 
-	db, err := sql.Open("mysql", fmt.Sprintf("%s:%s@dialctxtest(%s)/%s?timeout=30s", user, pass, addr, dbname))
+	db, err := sql.Open("mysql_compress", fmt.Sprintf("%s:%s@dialctxtest(%s)/%s?timeout=30s", user, pass, addr, dbname))
 	if err != nil {
 		t.Fatalf("error connecting: %s", err.Error())
 	}
